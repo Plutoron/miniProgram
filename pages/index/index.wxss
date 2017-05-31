@@ -5,3 +5,12 @@ button{
   padding:0;
   margin:0;
 }
+.audio{
+  position: fixed;
+  top: 0px;
+  z-index: 9999;
+  background: #fff;
+  width: 90%;
+}
+.weui-panel{
+}

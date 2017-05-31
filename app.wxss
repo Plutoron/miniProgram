@@ -6,6 +6,5 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding-top: 100rpx;
   box-sizing: border-box;
 } 

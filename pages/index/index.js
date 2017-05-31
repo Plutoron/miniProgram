@@ -8,34 +8,6 @@ Page({
       url: '../logs/logs'
     })
   },
-  setSrc: function(event) {
-    console.log(event.currentTarget.dataset);
-    var dataset = event.currentTarget.dataset;
-    var that = this;
-    var _src = '';
-    wx.request({
-      url: 'https://api.imjad.cn/cloudmusic/', //仅为示例，并非真实的接口地址
-      data: {
-        type: 'song',
-        id: dataset.id
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(_src + 1)
-        var data = res.data.data[0];
-        _src = data.url;
-        that.setData({
-          poster: dataset.poster,
-          name: dataset.name,
-          author: dataset.author,
-          src: _src
-        });
-      }
-    });
-   
-  },
   onLoad: function () {
     console.log('onLoad');
     var that = this;
@@ -61,13 +33,14 @@ Page({
           tracks: data.playlist.tracks
         })
         that.tracks = data.playlist.tracks;
-        console.log(that.tracks[0])
+        //console.log(that.tracks[0])
       }
     })
   },
   onReady: function (e) {
     // 使用 wx.createAudioContext 获取 audio 上下文 context
-    this.audioCtx = wx.createAudioContext('myAudio');  
+    // this.audioCtx = wx.createAudioContext('myAudio'); 
+ 
   },
   data: {
       poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
@@ -86,5 +59,60 @@ Page({
     },
     audioStart: function () {
       this.audioCtx.seek(0)
+    },
+    setSrc: function (event) {
+     // console.log(event.currentTarget.dataset);
+     // console.log(this.src)
+      var dataset = event.currentTarget.dataset;
+      var that = this;
+      var _src = '';
+      wx.request({
+        url: 'https://api.imjad.cn/cloudmusic/', //仅为示例，并非真实的接口地址
+        data: {
+          type: 'song',
+          id: dataset.id
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          var data = res.data.data[0];
+          _src = data.url;
+          console.log(_src);
+          if(_src == null){
+            wx.showToast({
+              title: '因版权问题，暂时不能播放，抱歉',
+              icon: 'loading',
+              duration: 3000,
+              mask: true
+            });
+            return;
+          }
+          that.setData({
+            poster: dataset.poster,
+            name: dataset.name,
+            author: dataset.author,
+            src: _src
+          });
+          wx.playBackgroundAudio({
+            dataUrl: _src,
+            title: dataset.name,
+            coverImgUrl: dataset.poster
+          }) 
+          console.log('submit success');
+        },
+        complete: function (res) {
+          console.log('submit complete');
+          console.log(that.src);
+          console.log(that.audioCtx);
+        }
+      });
     }
+    // openToast: function () {
+    //   wx.showToast({
+    //     title: '已完成',
+    //     icon: 'success',
+    //     duration: 3000
+    //   });
+    // }
 })

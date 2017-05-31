@@ -17,7 +17,7 @@
     },
     {
       "pagePath": "pages/logs/logs",
-      "text": "weather"
+      "text": "detail"
     }]
   }
 }
