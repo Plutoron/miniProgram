@@ -1,7 +1,8 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/detail/detail"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -16,7 +17,7 @@
       "text": "music"
     },
     {
-      "pagePath": "pages/logs/logs",
+      "pagePath": "pages/detail/detail",
       "text": "detail"
     }]
   }

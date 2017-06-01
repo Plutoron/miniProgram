@@ -1,0 +1,9 @@
+<!--detail.wxml-->
+<view class="container">
+    <image src="{{poster}}" mode="aspectFit"></image>
+    <text>{{name}}</text>
+    <text>{{author}}</text>
+    <button bindtap="add">add line</button>
+    <button bindtap="remove">remove line</button>
+
+</view>

@@ -1,4 +1,4 @@
-/**index.wxss**/
+ /**index.wxss**/
 button{
   width:70px;
   display:inline-block;

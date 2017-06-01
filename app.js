@@ -25,6 +25,16 @@ App({
     }
   },
   globalData:{
-    userInfo:null
+    userInfo:null,
+    poster: '',
+    name: '',
+    author: '',
+    src: ''
+  },
+  setGlobalData: function(obj){
+    this.globalData.poster = obj.poster;
+    this.globalData.name = obj.name;
+    this.globalData.author = obj.author;
+    this.globalData.src = obj.src;
   }
 })
