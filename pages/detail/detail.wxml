@@ -1,9 +1,7 @@
 <!--detail.wxml-->
 <view class="container">
-    <image src="{{poster}}" mode="aspectFit"></image>
-    <text>{{name}}</text>
-    <text>{{author}}</text>
-    <button bindtap="add">add line</button>
-    <button bindtap="remove">remove line</button>
-
+    <image src="{{poster}}"></image>
+    <text class="name">{{name}}</text>
+    <text class="author">{{author}}</text>
+    <text class="btn iconfont {{musicStatus == 'play' ? 'icon-bofang' : 'icon-zanting'}}" bindtap="audioControl"></text>
 </view>

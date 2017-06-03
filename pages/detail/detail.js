@@ -19,33 +19,80 @@ Page({
       })
     })
   },
+  onShareAppMessage: function () {
+    var _title = this.data.name + this.data.author;
+    return {
+      title: _title,
+      desc: '这首歌不错，来听听吧!',
+      path: '/pages/detail/detail'
+    }
+  },
   onReady: function (e) {
     
   },
   onShow: function () {
+    var that = this;
     this.setData({
       poster: app.globalData.poster,
       name: app.globalData.name,
       author: app.globalData.author,
       src: app.globalData.src
-    })
+    }),
+      wx.getBackgroundAudioPlayerState({
+        success: function (res) {
+          console.log('成功背景音乐信息');
+          var status = res.status
+          // var dataUrl = res.dataUrl
+          // var currentPosition = res.currentPosition
+          // var duration = res.duration
+          // var downloadPercent = res.downloadPercent
+          // console.log('status = ' + status);
+          if (status == 1) {
+            that.setData({
+              musicStatus: 'play'
+            })
+            return;
+          }
+        },
+        fail: function () {
+          console.log('获取背景音乐信息失败');
+          app.playMusic();
+        },
+        complete: function () {
+          console.log('complete获取背景音乐信息结束');
+        }
+      })
   },
   data: {
       poster: '',
       name: '',
       author: '',
-      src: ''
+      src: '',
+      musicStatus: 'play'
   },
-    audioPlay: function () {
-      this.audioCtx.play()
-    },
-    audioPause: function () {
-      this.audioCtx.pause()
-    },
-    audio14: function () {
-      this.audioCtx.seek(14)
-    },
-    audioStart: function () {
-      this.audioCtx.seek(0)
+  audioControl: function () {
+    wx.getBackgroundAudioPlayerState({
+      fail: function (){
+        console.log('获取背景音乐信息失败');
+        app.playMusic();
+      },
+      complete: function () {
+        console.log('complete获取背景音乐信息结束');
+      }
+    })
+    console.log('获取背景音乐信息结束');
+    var status = this.data.musicStatus;
+    if (status == 'play'){
+        wx.pauseBackgroundAudio();
+        this.setData({
+          musicStatus: 'pause'
+        })
+    } 
+    else if (status == 'pause'){
+        app.playMusic();
+        this.setData({
+          musicStatus: 'play'
+        })
     }
+  }
 })

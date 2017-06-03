@@ -1,16 +1,13 @@
  /**index.wxss**/
-button{
-  width:70px;
-  display:inline-block;
-  padding:0;
-  margin:0;
-}
-.audio{
-  position: fixed;
-  top: 0px;
-  z-index: 9999;
-  background: #fff;
-  width: 90%;
-}
 .weui-panel{
+  width: 650rpx;
 }
+.weui-media-box__title{
+  font-size:40rpx;
+}
+.weui-media-box__desc{
+  font-size:35rpx;
+}
+
+
+

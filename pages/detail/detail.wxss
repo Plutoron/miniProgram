@@ -1,1 +1,53 @@
 /**detail.wxss**/
+/*图片旋转*/
+image{
+  width: 600rpx;
+  height: 600rpx;
+  border-radius: 50%; 
+  animation: trans 30s linear infinite;
+}
+@keyframes trans{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.name{
+  padding-top:40rpx;
+  font-size:60rpx;
+  font-weight:bold;
+}
+.author{
+  font-size: 50rpx;
+  padding-bottom: 30rpx; 
+}
+
+.btn{
+  box-sizing: border-box;
+  width:80rpx;
+  height:80rpx;
+  border-radius:40rpx;
+  text-align: center;
+  line-height: 80rpx;
+  border: 1px solid #ccc;
+}
+
+/*iconfont*/
+@font-face {font-family: "iconfont";
+  src: url('//at.alicdn.com/t/font_sywxgaisqi05p14i.eot?t=1496388504655'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_sywxgaisqi05p14i.eot?t=1496388504655#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_sywxgaisqi05p14i.woff?t=1496388504655') format('woff'), /* chrome, firefox */
+  url('//at.alicdn.com/t/font_sywxgaisqi05p14i.ttf?t=1496388504655') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_sywxgaisqi05p14i.svg?t=1496388504655#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size: 35rpx; 
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-bofang:before { content: "\e640"; padding-left: 2rpx;}
+.icon-zanting:before { content: "\e778"; padding-left: 10rpx;}

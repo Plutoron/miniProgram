@@ -36,5 +36,12 @@ App({
     this.globalData.name = obj.name;
     this.globalData.author = obj.author;
     this.globalData.src = obj.src;
+  },
+  playMusic: function () {
+    wx.playBackgroundAudio({
+      dataUrl: this.globalData.src,
+      title: this.globalData.name,
+      coverImgUrl: this.globalData.poster
+    }) 
   }
 })

@@ -1,0 +1,25 @@
+/**search.wxss**/
+.searchbar-result{
+    margin-top: 0;
+    font-size: 14px;
+}
+.searchbar-result:before{
+    display: none;
+}
+.weui-cell{
+    padding: 12px 15px 12px 35px;
+}
+.red_placeholder{
+  color: #d81e06;
+}
+.weui-search-bar{
+  border:0;
+  padding:0;
+}
+.weui-search-bar__cancel-btn{
+  margin: 0;
+  padding: 0 20rpx;
+}
+.weui-search-bar__text{
+  color: #d81e06;
+}

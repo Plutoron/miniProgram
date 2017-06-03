@@ -1,13 +1,5 @@
 <!--index.wxml-->
 <view class="container">
-  <!--<view bindtap="bindViewTap" class="audio">
-    <audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio>
-    <button bindtap="audioPlay">play</button>
-    <button bindtap="audioPause">stop</button>-->
-    <!--<button type="primary" bindtap="audio14">设置当前播放时间为14秒</button>-->
-    <!--<button bindtap="audioStart">back</button>-->
-  <!--</view>-->
-  
   <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
           <view wx:for="{{tracks}}" wx:key="key" wx:if="{{item.name.length < 20}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-id="{{item.id}}" bindtap="setSrc" data-poster="{{item.al.picUrl}}" data-name="{{item.name}}" data-author="{{item.ar[0].name}}">
