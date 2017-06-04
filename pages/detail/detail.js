@@ -42,16 +42,14 @@ Page({
         success: function (res) {
           console.log('成功背景音乐信息');
           var status = res.status
-          // var dataUrl = res.dataUrl
-          // var currentPosition = res.currentPosition
-          // var duration = res.duration
-          // var downloadPercent = res.downloadPercent
-          // console.log('status = ' + status);
           if (status == 1) {
             that.setData({
               musicStatus: 'play'
             })
-            return;
+          } else if (status == 0){
+            that.setData({
+              musicStatus: 'pause'
+            })
           }
         },
         fail: function () {

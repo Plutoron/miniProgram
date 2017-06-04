@@ -10,40 +10,18 @@ Page({
       that.setData({
         userInfo:userInfo
       })
-    }),
-    console.log(this.data.userInfo);
+    })
   },
   onReady: function (e) {
     
   },
   onShow: function () {
-   
+    this.setData({
+      inputVal: "",
+      inputShowed: false
+    });
   },
   data: {
-    array: ['单曲', '专辑', '歌单', '主播电台'],
-    objectArray: [
-      {
-        id: 0,
-        name: '单曲',
-        val: '1'
-      },
-      {
-        id: 1,
-        name: '专辑',
-        val: '10'
-      },
-      {
-        id: 2,
-        name: '歌单',
-        val: '1000'
-      },
-      {
-        id: 3,
-        name: '主播电台',
-        val: '1009'
-      }
-    ],
-    index: 0,
     inputShowed: false,
     inputVal: ""
   },
@@ -64,9 +42,61 @@ Page({
     });
   },
   inputTyping: function (e) {
+    var that = this;
     this.setData({
-      inputVal: e.detail.value
+      inputVal: e.detail.value,
+      resArray: []
     });
+  },
+  getRes: function () {
+    var that = this;
+    if (this.data.inputVal == ''){
+      return;
+    }
+    wx.showLoading({
+      title: '搜索中',
+    })
+    wx.request({
+      url: 'https://api.imjad.cn/cloudmusic/',
+      data: {
+        type: 'search',
+        s: that.data.inputVal,
+        limit: 8
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        var resSongs = res.data.result.songs;
+        var newArray = [];
+        for(var i in resSongs){
+          var songName = resSongs[i].name;
+          if (songName.length > 15){
+            var array = [];
+            if (songName.indexOf('（') > -1){
+              array = songName.split('（');
+            } else if (songName.indexOf('(') > -1){
+              array = songName.split('('); 
+            } else {
+              return;
+            }
+            songName = array[0];
+          }
+          newArray.push({
+            poster: resSongs[i].al.picUrl,
+            name: songName,
+            author: resSongs[i].ar[0].name,
+            id: resSongs[i].id
+          })
+        }
+        that.setData({
+          resArray: newArray
+        })
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
   },
   bindPickerChange: function (e) {
     console.log(e);
@@ -74,5 +104,9 @@ Page({
     this.setData({
       index: e.detail.value
     })
+  },
+  play: function(e) {
+    app.setSrc(e);
+    console.log(1);
   }
 })

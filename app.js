@@ -43,5 +43,43 @@ App({
       title: this.globalData.name,
       coverImgUrl: this.globalData.poster
     }) 
+  },
+  setSrc: function (event) {
+    var dataset = event.currentTarget.dataset;
+    var that = this;
+    var _src = '';
+    wx.request({
+      url: 'https://api.imjad.cn/cloudmusic/', //仅为示例，并非真实的接口地址
+      data: {
+        type: 'song',
+        id: dataset.id
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        var data = res.data.data[0];
+        _src = data.url;
+        console.log(_src);
+        if (_src == null) {
+          wx.showToast({
+            title: '因版权问题，暂时不能播放，抱歉',
+            icon: 'loading',
+            duration: 3000,
+            mask: true
+          });
+          return;
+        }
+        that.setGlobalData({
+          poster: dataset.poster,
+          name: dataset.name,
+          author: dataset.author,
+          src: _src
+        });
+        that.playMusic();
+      },
+      complete: function (res) {
+      }
+    });
   }
 })
