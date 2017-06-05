@@ -45,6 +45,9 @@ App({
     }) 
   },
   setSrc: function (event) {
+    console.log('event');
+    console.log(event);
+    
     var dataset = event.currentTarget.dataset;
     var that = this;
     var _src = '';

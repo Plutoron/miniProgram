@@ -11,7 +11,10 @@ Page({
       that.setData({
         userInfo:userInfo
       })
-    }),
+    })
+    wx.showLoading({
+      title: '加载列表中',
+    })
     wx.request({
       url: 'https://api.imjad.cn/cloudmusic/', //仅为示例，并非真实的接口地址
       data: {
@@ -49,19 +52,42 @@ Page({
               author: that.tracks[0].ar[0].name,
               src: _src
             });
+          },
+          complete: function () {
+            wx.hideLoading();
+
           }
         })
       }
     })
   },
+  onShow: function () {
+  
+  },
   onReady: function (e) {
     // 使用 wx.createAudioContext 获取 audio 上下文 context
     // this.audioCtx = wx.createAudioContext('myAudio'); 
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
   },
   data: {
-  
+      userInfo: ''
   },
   play: function (e) {
-    app.setSrc(e);
+    if (this.endTime - this.startTime < 350) {
+      app.setSrc(e);
+    }else {
+      console.log('longtab');
+    }
+    console.log(this.data.userInfo)
+  },
+  bindTouchStart: function (e) {
+    this.startTime = e.timeStamp;
+    console.log('start' + this.startTime);
+  },
+  bindTouchEnd: function (e) {
+    this.endTime = e.timeStamp;
+    console.log('end' + this.endTime);
   }
 })

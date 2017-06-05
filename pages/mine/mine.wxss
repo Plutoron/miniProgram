@@ -1,0 +1,21 @@
+ /**mine.wxss**/
+.weui-panel::before{
+  border: none;
+}
+.weui-panel__hd{
+  text-align: center;
+}
+.weui-panel__hd text{
+  display: block;
+}
+
+.wel_text{
+  font-size: 40rpx;
+}
+.avata{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100rpx;
+}
+
+
