@@ -1,5 +1,5 @@
  /**mine.wxss**/
-.weui-panel::before{
+.weui-panel::before,.weui-panel::after{
   border: none;
 }
 .weui-panel__hd{
@@ -16,6 +16,6 @@
   width: 200rpx;
   height: 200rpx;
   border-radius: 100rpx;
+  background: #ccc;
+  margin: 25rpx 0;
 }
-
-

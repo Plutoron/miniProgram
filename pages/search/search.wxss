@@ -1,6 +1,7 @@
 /**search.wxss**/
 .searchbar-result{
-    margin-top: 0;
+    margin-top: 55px;
+    margin-bottom: 10px;
     font-size: 14px;
     width: 85%;
 }
@@ -20,11 +21,13 @@
 }
 
 .weui-search-bar{
+  position: fixed;
+  z-index: 1000;
   border:0;
-  padding:0;
-  margin: 30rpx 0;
+  padding:30rpx 0;
+  margin: 0;
   width: 85%;
-  background: none;
+  background: #fff;
 }
 .weui-search-bar__cancel-btn{
   margin: 0;
@@ -32,4 +35,7 @@
 }
 .weui-search-bar__text{
   color: #d81e06;
+}
+.weui-media-box__thumb{
+  background: #eee;
 }

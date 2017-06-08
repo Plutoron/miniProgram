@@ -4,13 +4,6 @@ var app = getApp()
 Page({
   onLoad: function () {
     //调用应用实例的方法获取全局数据
-    var that =this;
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      that.setData({
-        userInfo:userInfo
-      })
-    })
   },
   onReady: function (e) {
     
@@ -19,11 +12,12 @@ Page({
     this.setData({
       inputVal: "",
       inputShowed: false
-    });
+    })
   },
   data: {
     inputShowed: false,
-    inputVal: ""
+    inputVal: "",
+    longtab: false
   },
   showInput: function () {
     this.setData({
@@ -105,8 +99,21 @@ Page({
       index: e.detail.value
     })
   },
-  play: function(e) {
-    app.setSrc(e);
-    console.log(1);
+  play: function (e) {
+    if (this.endTime - this.startTime < 350) {
+      let data = e.currentTarget.dataset;
+      app.setGlobalData(data);
+    } else {
+      console.log('longtab');
+    }
+    console.log(this.data.userInfo)
+  },
+  bindTouchStart: function (e) {
+    this.startTime = e.timeStamp;
+    console.log('start' + this.startTime);
+  },
+  bindTouchEnd: function (e) {
+    this.endTime = e.timeStamp;
+    console.log('end' + this.endTime);
   }
 })

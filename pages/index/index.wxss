@@ -3,11 +3,15 @@
   width: 85%;
 }
 .weui-media-box__title{
-  font-size:40rpx;
+  font-size:35rpx;
+  white-space: normal;
+  word-break: break-word;
 }
 .weui-media-box__desc{
-  font-size:35rpx;
+  font-size:30rpx;
 }
-
+.weui-media-box__hd_in-appmsg{
+  background: #eee;
+}
 
 

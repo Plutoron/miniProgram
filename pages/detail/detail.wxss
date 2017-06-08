@@ -5,6 +5,7 @@ image{
   height: 600rpx;
   border-radius: 50%; 
   animation: trans 30s linear infinite;
+  background: #eee;
 }
 @keyframes trans{
   0%{
