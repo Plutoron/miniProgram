@@ -2,7 +2,7 @@
 <view class="container">
   <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
-          <view wx:for="{{tracks}}" wx:key="key" wx:if="{{item.name}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindtap="play" data-id="{{item.id}}" data-poster="{{item.poster}}" data-name="{{item.name}}" data-author="{{item.author}}" data-url="{{item.url}}">
+          <view wx:for="{{tracks}}" wx:key="key" wx:if="{{item.name}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindtap="play" data-id="{{item.id}}" data-poster="{{item.poster}}" data-name="{{item.name}}" data-author="{{item.author}}">
            
                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                     <image class="weui-media-box__thumb" src="{{item.poster}}"/>

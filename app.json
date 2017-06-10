@@ -10,7 +10,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "音乐带来好心情",
     "navigationBarTextStyle":"black",
-    "enablePullDownRefresh": "false"
+    "enablePullDownRefresh": false
   },
   "tabBar": {
     "position": "bottom",

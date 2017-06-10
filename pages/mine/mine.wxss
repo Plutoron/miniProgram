@@ -16,6 +16,11 @@
   width: 200rpx;
   height: 200rpx;
   border-radius: 100rpx;
+  border-color: #ddd;
   background: #ccc;
   margin: 25rpx 0;
+}
+.weui-cells{
+  margin-top: 0; 
+  width: 85%;
 }

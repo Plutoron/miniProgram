@@ -11,19 +11,15 @@ App({
     var that = this;
     wx.login({
       success: function (e) {
-        console.log('调用成功');
         let code = e.code;
         let userInfo = null;
         that.globalData.code = code;
-        console.log(that.globalData.code);
         wx.getUserInfo({
           success: function (res) {
-            console.log('获取数据成功');
             userInfo = res.userInfo;
             that.globalData.userInfo = userInfo;
           },
           fail: function () {
-            console.log('获取数据失败');
             userInfo = {
               nickName: '游客',
               city: 'yours'
@@ -31,12 +27,7 @@ App({
             that.globalData.userInfo = userInfo;
           },
           complete: function () {
-            console.log('获取数据完成');
             that.postUserInfo(code, userInfo);
-            console.log('code: ');
-            console.log(code);
-            console.log('userInfo: ');
-            console.log(userInfo);
           }
         })
       },
@@ -51,10 +42,13 @@ App({
   globalData:{
     code: '',
     userInfo:null,
+    id: '',
     poster: '',
     name: '',
     author: '',
-    url: ''
+    url: '',
+    userList:[],
+    newSong: {} 
   },
   postUserInfo: function(code,userInfo) {
     wx.request({
@@ -79,24 +73,60 @@ App({
       }
     })
   },
+  getUserSongList: function () {
+    wx.request({
+      url: 'https://suyunlong.top/',
+    })
+  },
   setGlobalData: function(obj){
+    this.globalData.id = obj.id;
     this.globalData.poster = obj.poster;
     this.globalData.name = obj.name;
     this.globalData.author = obj.author;
-    this.globalData.url = obj.url;
-    console.log('设置url');
-    console.log(obj.url);
-    console.log(this.globalData.url);
   },
-  playMusic: function () {
+  setNewSong: function(data) {
+    this.globalData.newSong = data;
+    this.globalData.userList.push(data);
+    console.log(this.globalData.newSong);
+  },
+  playMusic: function (id,obj) {
     var that = this; 
-    console.log('play');
-    console.log(this.globalData.url);
-    wx.playBackgroundAudio({
-      dataUrl: that.globalData.url,
-      title: that.globalData.name,
-      coverImgUrl: that.globalData.poster
+    var url = '';
+    wx.showLoading({
+      title: '缓冲中',
+      mask: true
     })
-    console.log('播放'); 
+    wx.request({
+      url: 'https://suyunlong.top/mini/getUrl',
+      data: {
+        'id': id
+      },
+      success: function (res) {
+        let _data = res.data;
+        url = _data;
+        console.log('!url');
+        console.log(!url);
+        if(!url){
+          wx.showLoading({
+            title: '因版权问题，暂时无法播放QAQ',
+            duration: 1000
+          })
+          return 
+        }
+        that.globalData.url = url;
+        if(obj){
+          console.log('obj存在');
+          that.setGlobalData(obj);
+        }
+        wx.playBackgroundAudio({
+          dataUrl: url,
+          title: '歌'
+        })
+        wx.hideLoading();
+      },
+      complete: function () {
+      
+      }
+    })
   }
 })

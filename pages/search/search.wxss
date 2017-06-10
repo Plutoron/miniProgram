@@ -26,8 +26,10 @@
   border:0;
   padding:30rpx 0;
   margin: 0;
-  width: 85%;
+  width: 86%;
   background: #fff;
+  left: 7%;
+  top: 0;
 }
 .weui-search-bar__cancel-btn{
   margin: 0;

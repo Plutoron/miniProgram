@@ -5,20 +5,32 @@ Page({
   onLoad: function () {
     console.log('detail onLoad');
     var that = this;
+    that.setData({
+      id: app.globalData.id,
+      poster: app.globalData.poster,
+      name: app.globalData.name,
+      author: app.globalData.author
+    })
     //调用应用实例的方法获取全局数据
     wx.onBackgroundAudioPlay(function () {
       that.setData({
-        musicStatus: 'play'
+        musicStatus: true
       })
+      console.log('播放开始');
     })
     wx.onBackgroundAudioPause(function () {
       that.setData({
-        musicStatus: 'pause'
+        musicStatus: false
       })
+      console.log('播放暂停');
     })
     wx.onBackgroundAudioStop(function () {
       that.setData({
-        musicStatus: 'pause'
+        musicStatus: false
+      })
+      console.log('播放结束');
+      wx.playBackgroundAudio({
+        dataUrl: app.globalData.url
       })
     })
   },
@@ -30,56 +42,85 @@ Page({
       path: '/pages/detail/detail'
     }
   },
-  onReady: function (e) {
-    
-  },
   onShow: function () {
     var that = this;
-    this.setData({
+    that.setData({
+      id: app.globalData.id,
       poster: app.globalData.poster,
       name: app.globalData.name,
-      author: app.globalData.author,
-      src: app.globalData.src
+      author: app.globalData.author
     })
     wx.getBackgroundAudioPlayerState({
       success: function (res) {
-        console.log('成功背景音乐信息');
-        var status = res.status
-        if (status == 1) {
+        console.log(res.status);
+        var _status = res.status;
+        if (_status == 1) {
           that.setData({
-            musicStatus: 'play'
+            musicStatus: true
           })
+          return
+        }
+        that.setData({
+          musicStatus: false
+        })
+      },
+      fail: function () {
+        console.log('onShow失败');
+        that.setData({
+          musicStatus: false
+        })
+      }
+    })
+  },
+  data: {
+    id: '',
+    poster: '',
+    name: '',
+    author: '',
+    musicStatus: false
+  },
+  audioControl: function () {
+    var that = this;
+    var status = that.data.musicStatus;
+    wx.getBackgroundAudioPlayerState({
+      success: function (res) {
+        console.log('成功背景音乐信息');
+        var _status = res.status;
+        console.log(_status);
+        if (_status == 1) {
+          console.log('暂停背景音乐信息');
+          wx.pauseBackgroundAudio();
+          that.setData({
+            musicStatus: !that.data.musicStatus
+          })
+        } else if (_status == 0){
+          wx.playBackgroundAudio({
+            dataUrl: app.globalData.url
+          })
+          console.log('继续播放背景音乐信息');
+          that.setData({
+            musicStatus: !that.data.musicStatus
+          })
+        } else {
+          app.playMusic(that.data.id);
+          wx.showLoading({
+            title: '缓冲中',
+            mask: true,
+            duration: 1000
+          });
+          console.log('没有播放背景音乐信息');
         }
       },
       fail: function () {
         console.log('获取背景音乐信息失败');
+        app.playMusic(that.data.id);
+        that.setData({
+          musicStatus: !that.data.musicStatus
+        })
       },
       complete: function () {
         console.log('complete获取背景音乐信息结束');
       }
     })
-  },
-  data: {
-    poster: '',
-    name: '',
-    author: '',
-    src: '',
-    musicStatus: 'pause'
-  },
-  audioControl: function () {
-    var status = this.data.musicStatus;
-    var that = this;
-    if (status == 'play'){
-        wx.pauseBackgroundAudio();
-        that.setData({
-          musicStatus: 'pause'
-        })
-    } 
-    else if (status == 'pause'){
-        app.playMusic();
-        that.setData({
-          musicStatus: 'play'
-        })
-    }
   }
 })

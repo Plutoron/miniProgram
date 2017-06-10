@@ -5,9 +5,6 @@ Page({
   onLoad: function () {
     //调用应用实例的方法获取全局数据
   },
-  onReady: function (e) {
-    
-  },
   onShow: function () {
     this.setData({
       inputVal: "",
@@ -17,7 +14,9 @@ Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    longtab: false
+    longtab: false,
+    resArray: [],
+    target: {}
   },
   showInput: function () {
     this.setData({
@@ -48,49 +47,31 @@ Page({
       return;
     }
     wx.showLoading({
-      title: '搜索中',
+      title: '搜索中'
     })
     wx.request({
-      url: 'https://api.imjad.cn/cloudmusic/',
+      url: 'https://suyunlong.top/mini/search',
       data: {
-        type: 'search',
         s: that.data.inputVal,
-        limit: 8
-      },
-      header: {
-        'content-type': 'application/json'
+        limit: 10
       },
       success: function (res) {
-        var resSongs = res.data.result.songs;
-        var newArray = [];
-        for(var i in resSongs){
-          var songName = resSongs[i].name;
-          if (songName.length > 15){
-            var array = [];
-            if (songName.indexOf('（') > -1){
-              array = songName.split('（');
-            } else if (songName.indexOf('(') > -1){
-              array = songName.split('('); 
-            } else {
-              return;
-            }
-            songName = array[0];
-          }
-          newArray.push({
-            poster: resSongs[i].al.picUrl,
-            name: songName,
-            author: resSongs[i].ar[0].name,
-            id: resSongs[i].id
+          let data = res.data;
+          that.setData({
+            resArray: data
           })
-        }
-        that.setData({
-          resArray: newArray
+          wx.hideLoading();
+      },
+      fail: function () {
+        wx.showLoading({
+          title: '搜索失败',
+          duration: 1000
         })
       },
       complete: function () {
-        wx.hideLoading();
+    
       }
-    })
+     })
   },
   bindPickerChange: function (e) {
     console.log(e);
@@ -100,13 +81,27 @@ Page({
     })
   },
   play: function (e) {
+    var that = this;
+    var data = e.currentTarget.dataset;
     if (this.endTime - this.startTime < 350) {
-      let data = e.currentTarget.dataset;
-      app.setGlobalData(data);
+      app.playMusic(data.id, data);
     } else {
       console.log('longtab');
+      that.setData({
+        target: data
+      })
+      console.log(that.data.target);
+      wx.showModal({
+        title: '这首还不错，不如添加到我的歌单',
+        success: function (res) {
+          if (res.confirm) {
+            app.setNewSong(data);
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
     }
-    console.log(this.data.userInfo)
   },
   bindTouchStart: function (e) {
     this.startTime = e.timeStamp;
