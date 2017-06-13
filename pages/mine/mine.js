@@ -10,19 +10,9 @@ Page({
     this.setData({
       userInfo: app.globalData.userInfo
     })
-    // wx.request({
-    //   url: 'https://', //仅为示例，并非真实的接口地址
-    //   data: {
-    //     type: 'playlist',
-    //     id: '507182467'
-    //   },
-    //   header: {
-    //     'content-type': 'application/json'
-    //   },
-    //   success: function (res) {
-        
-    //   }
-    // })
+    this.setData({
+      myList: app.globalData.userList
+    })
   },
   onReady: function (e) {
     
@@ -36,6 +26,7 @@ Page({
   },
   data: {
     userInfo: '',
+    code: '',
     myList: []
   },
   play: function (e) {
@@ -60,6 +51,14 @@ Page({
                 that.setData({
                   myList: a
                 })
+                app.setUserList(a);
+                if (app.globalData.isTourist) 
+                {
+                  console.log('游客');
+                  return;
+                }
+                console.log('不是游客');
+                app.delFromMyList(data);
                 return;
               }
             })

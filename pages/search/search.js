@@ -16,7 +16,8 @@ Page({
     inputVal: "",
     longtab: false,
     resArray: [],
-    target: {}
+    target: {},
+    hasIn: false
   },
   showInput: function () {
     this.setData({
@@ -49,14 +50,24 @@ Page({
     wx.showLoading({
       title: '搜索中'
     })
+    
     wx.request({
       url: 'https://suyunlong.top/mini/search',
       data: {
-        s: that.data.inputVal,
-        limit: 10
+        s: that.data.inputVal
       },
       success: function (res) {
           let data = res.data;
+          console.log(data);
+          if(!data){
+            wx.showToast({
+              title: '请换个关键字搜索',
+              icon: 'loading',
+              duration: 1000
+            })
+            console.log('data为否');
+            return;
+          }
           that.setData({
             resArray: data
           })
@@ -95,10 +106,35 @@ Page({
         title: '这首还不错，不如添加到我的歌单',
         success: function (res) {
           if (res.confirm) {
-            app.setNewSong(data);
+            app.globalData.userList.forEach((v, i, a) => {
+              if (v.id == data.id) {
+                wx.showToast({
+                  title: '歌单中已存在',
+                  duration: 2000
+                })
+                that.setData({
+                  hasIn: true
+                })
+                return;
+              }
+            })
+            if(that.data.hasIn) return;
+            console.log('未重复');
+            app.addNewSong(data);
+            if (app.globalData.isTourist) {
+              console.log('游客');
+              return;
+            }
+            console.log('不是游客');
+            app.addToMyList(data);
           } else if (res.cancel) {
             console.log('用户点击取消')
           }
+        },
+        complete: function () {
+          that.setData({
+            hasIn: false
+          })
         }
       })
     }

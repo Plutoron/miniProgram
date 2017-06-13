@@ -18,6 +18,7 @@ App({
           success: function (res) {
             userInfo = res.userInfo;
             that.globalData.userInfo = userInfo;
+            that.postUserInfo(code, userInfo);
           },
           fail: function () {
             userInfo = {
@@ -25,9 +26,10 @@ App({
               city: 'yours'
             };
             that.globalData.userInfo = userInfo;
+            that.globalData.isTourist = true;
           },
           complete: function () {
-            that.postUserInfo(code, userInfo);
+            
           }
         })
       },
@@ -40,6 +42,7 @@ App({
     })
   },
   globalData:{
+    isTourist: false,
     code: '',
     userInfo:null,
     id: '',
@@ -51,6 +54,7 @@ App({
     newSong: {} 
   },
   postUserInfo: function(code,userInfo) {
+    var that = this;
     wx.request({
       url: 'https://suyunlong.top/mini/getuserinfo',
       method: 'POST',
@@ -63,7 +67,7 @@ App({
         'city': userInfo.city
       },
       success: function (res) {
-        console.log(res.data);
+        that.globalData.userList = res.data;
       },
       fail: function () {
         console.log('post失败');
@@ -73,21 +77,20 @@ App({
       }
     })
   },
-  getUserSongList: function () {
-    wx.request({
-      url: 'https://suyunlong.top/',
-    })
-  },
   setGlobalData: function(obj){
     this.globalData.id = obj.id;
     this.globalData.poster = obj.poster;
     this.globalData.name = obj.name;
     this.globalData.author = obj.author;
   },
-  setNewSong: function(data) {
+  addNewSong: function(data) {
     this.globalData.newSong = data;
     this.globalData.userList.push(data);
     console.log(this.globalData.newSong);
+  },
+  setUserList: function (data) {
+    this.globalData.userList = data;
+    console.log(this.globalData.userList);
   },
   playMusic: function (id,obj) {
     var that = this; 
@@ -126,6 +129,50 @@ App({
       },
       complete: function () {
       
+      }
+    })
+  },
+  addToMyList: function (obj) {
+    var that = this;
+    wx.request({
+      url: 'https://suyunlong.top/mini/addtomylist',
+      method: 'POST',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      data: {
+          id: obj.id,
+          name: obj.name,
+          author: obj.author,
+          poster: obj.poster
+      },
+      success: function (res) {
+        console.log(res.data);
+      },
+      fail: function () {
+        console.log('添加失败');
+      }
+    })
+  },
+  delFromMyList: function (obj) {
+    var that = this;
+    wx.request({
+      url: 'https://suyunlong.top/mini/delfrommylist',
+      method: 'POST',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      data: {
+        id: obj.id,
+        name: obj.name,
+        author: obj.author,
+        poster: obj.poster
+      },
+      success: function (res) {
+        console.log(res.data);
+      },
+      fail: function () {
+        console.log('删除失败');
       }
     })
   }
