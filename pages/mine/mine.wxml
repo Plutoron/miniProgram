@@ -3,7 +3,7 @@
         <view class="weui-panel weui-panel_access" wx:if="{{userInfo}}">
             <view class="weui-panel__hd">
               <text class="wel_text">欢迎您</text>
-              <image class="avata" src="{{userInfo.avatarUrl}}"></image>
+              <image class="avata" src="{{isTourist ? tourist : userInfo.avatarUrl}}"></image>
               <text class="nick_Name">{{userInfo.nickName}}</text>
             </view>
         </view>

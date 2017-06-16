@@ -11,6 +11,7 @@ Page({
       userInfo: app.globalData.userInfo
     })
     this.setData({
+      isTourist: app.globalData.isTourist,
       myList: app.globalData.userList
     })
   },
@@ -26,6 +27,8 @@ Page({
   },
   data: {
     userInfo: '',
+    isTourist: false,
+    tourist: '../../img/tourist.png',
     code: '',
     myList: []
   },

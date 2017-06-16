@@ -44,9 +44,12 @@ Page({
   },
   getRes: function () {
     var that = this;
+    // var regCapitalLetter = new RegExp('^[a-zA-Z0-9]+$', 'g');
     if (this.data.inputVal == ''){
       return;
     }
+    // console.log('正则');
+    // console.log(regCapitalLetter.exec(this.data.inputVal));
     wx.showLoading({
       title: '搜索中'
     })
@@ -63,7 +66,7 @@ Page({
             wx.showToast({
               title: '请换个关键字搜索',
               icon: 'loading',
-              duration: 1000
+              duration: 1500
             })
             console.log('data为否');
             return;
@@ -106,6 +109,7 @@ Page({
         title: '这首还不错，不如添加到我的歌单',
         success: function (res) {
           if (res.confirm) {
+            //循环现有歌单，判断是否重复
             app.globalData.userList.forEach((v, i, a) => {
               if (v.id == data.id) {
                 wx.showToast({
@@ -121,6 +125,7 @@ Page({
             if(that.data.hasIn) return;
             console.log('未重复');
             app.addNewSong(data);
+            //判断是不是游客，游客的话，不向后台发送数据
             if (app.globalData.isTourist) {
               console.log('游客');
               return;
